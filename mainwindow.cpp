@@ -29,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     qApp->installEventFilter(this);
 
+    m_settingsDialog = new SettingsDialog(this);
+    m_settingsDialog->addItem(new GridSettings(m_settingsDialog));
+
     // Включаем обработку горячих клавиш
     setFocusPolicy(Qt::StrongFocus);
 
@@ -93,6 +96,13 @@ void MainWindow::onLoadImage()
 void MainWindow::onSaveAtlas()
 {
 
+}
+
+void MainWindow::onActionSettings()
+{
+    if (m_settingsDialog->exec() == QDialog::Accepted)
+    {
+    }
 }
 
 void MainWindow::updateGrid()
@@ -332,6 +342,8 @@ void MainWindow::setupConnections()
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::onSaveAtlas);
 
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::onOpenImage);
+
+    connect(ui->actionSettings, &QAction::triggered, this, &MainWindow::onActionSettings);
 
     // Размеры сетки
     connect(ui->spinCellSizeWidth, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::updateCellSizeWidth);

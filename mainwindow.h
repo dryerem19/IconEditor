@@ -8,6 +8,9 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsPixmapItem>
 
+#include "settingsdialog.h"
+#include "gridsettings.h"
+
 // TODO LIST:
 // 1. Во время вставки изображения при прокрутке остается остаточное изображению превью (необходимо обновлять состояние)
 // 2. Дать возможность закрывать вкладки
@@ -97,6 +100,7 @@ private slots:
     void onNewAtlas();
     void onLoadImage();
     void onSaveAtlas();
+    void onActionSettings();
     void updateGrid();
     void snapToGrid(QGraphicsPixmapItem* item);
 
@@ -111,6 +115,7 @@ private:
     Ui::MainWindow *ui;
     QVector<QGraphicsPixmapItem*> icons;
     QVector<ImageTabStruct> imageTabs_;
+    SettingsDialog* m_settingsDialog{nullptr};
 
     // Превью при вставке
     QGraphicsPixmapItem* pastePreviewItem_{nullptr};
