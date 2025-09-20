@@ -26,6 +26,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         gridsettings.h gridsettings.cpp gridsettings.ui
         resources.qrc
 
+        colorbutton.h colorbutton.cpp colorbutton.ui
+
     )
 else()
     add_executable(IconEditor

@@ -1,7 +1,6 @@
 #ifndef GRIDSETTINGS_H
 #define GRIDSETTINGS_H
-
-#include <QWidget>
+#include "colorbutton.h"
 
 namespace Ui {
 class GridSettings;
@@ -17,6 +16,8 @@ public:
 
 private:
     Ui::GridSettings *ui;
+
+    void createConnections();
 };
 
 #endif // GRIDSETTINGS_H
