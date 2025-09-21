@@ -27,6 +27,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         resources.qrc
 
         colorbutton.h colorbutton.cpp colorbutton.ui
+        utils.h utils.cpp
 
     )
 else()

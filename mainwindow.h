@@ -10,6 +10,7 @@
 
 #include "settingsdialog.h"
 #include "gridsettings.h"
+#include "utils.h"
 
 // TODO LIST:
 // 1. Во время вставки изображения при прокрутке остается остаточное изображению превью (необходимо обновлять состояние)
@@ -17,23 +18,13 @@
 // 3. Точка привязки отоброжается после завершения копирования
 // 4. Функция "Вырезать"
 // 5. Во время вставки сделать авто прокрутку когда мышь выходит за края
+// 6. Проверка на степень двойки
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
 }
 QT_END_NAMESPACE
-
-namespace utils {
-    template<typename T>
-    T mapToRange(T value, T inMin, T inMax, T outMin, T outMax) {
-        if (qFuzzyCompare(inMin, inMax)) {
-            return outMin;
-        }
-
-        return outMin + (value - inMin) * (outMax - outMin) / (inMax - inMin);
-    }
-}
 
 const int   MIN_ZOOM_PERCENTAGE = 10;
 const int   MAX_ZOOM_PERCENTAGE = 500;

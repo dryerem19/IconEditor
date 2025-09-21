@@ -143,13 +143,42 @@ void MainWindow::updateCellSizeHeight(int height)
 
 void MainWindow::onOpenImage()
 {
-    QString path = QFileDialog::getOpenFileName(this, tr("Открыть изображение"), "", tr("PNG Images (*.png)"));
-    if (path.isEmpty()) return;
+    QString path = QFileDialog::getOpenFileName(this, tr("Открыть файл"), "", tr("PNG files (*.png)"));
+    if (path.isEmpty()) {
+        return;
+    }
 
     QImage image(path);
     if (image.isNull()) {
-        QMessageBox::warning(this, tr("Ошибка"), tr("Не удалось загрузить изображение!"));
+        QMessageBox::warning(this, tr("Ошибка!"),
+                             QString("Не удалось открыть файл: \n%1").arg(path));
         return;
+    }
+
+    if (!utils::isPowerOfTwo(image.width()) || !utils::isPowerOfTwo(image.height())) {
+        QMessageBox::warning(this, tr("Ошибка!"),
+                             QString("Не удалось открыть файл: \n%1\n%2")
+                                 .arg(path)
+                                 .arg("Размеры изображения не являются степенью двойки!"));
+        return;
+    }
+
+    if (!image.hasAlphaChannel()) {
+        QMessageBox::warning(this, tr("Ошибка!"),
+                             QString("Не удалось открыть файл: \n%1\n%2")
+                                 .arg(path)
+                                 .arg("Изображение не содержит альфа-канал (прозрачность)!"));
+        return;
+    }
+
+    foreach (const auto& tab, imageTabs_) {
+        if (0 == QString::compare(tab.filePath, path, Qt::CaseSensitive)) {
+            QMessageBox::warning(this, tr("Ошибка!"),
+                                 QString("Не удалось открыть файл: \n%1\n%2")
+                                     .arg(path)
+                                     .arg("Файл уже открыт!"));
+            return;
+        }
     }
 
     // Создаем новую вкладку
