@@ -25,7 +25,8 @@ private:
     QWidget* m_parent;
     QColor m_currentColor;
 
-    QColor getButtonColorFromStylesheet();
+protected:
+    void showEvent(QShowEvent *event);
 };
 
 #endif // COLORBUTTON_H

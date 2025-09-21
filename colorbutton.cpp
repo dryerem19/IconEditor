@@ -11,7 +11,6 @@ ColorButton::ColorButton(QWidget *parent)
 {
     ui->setupUi(this);
     connect(this, &QPushButton::clicked, this, &ColorButton::onClicked);
-    setColor(getButtonColorFromStylesheet());
 }
 
 ColorButton::~ColorButton()
@@ -21,8 +20,16 @@ ColorButton::~ColorButton()
 
 void ColorButton::setColor(const QColor &color)
 {
+    if (!color.isValid()) {
+        return;
+    }
+
     m_currentColor = color;
-    setStyleSheet(QString("QPushButton {background-color: %1;}").arg(m_currentColor.name()));
+
+    ui->colorLabel->setAutoFillBackground(true);
+    QPalette palette = ui->colorLabel->palette();
+    palette.setColor(ui->colorLabel->backgroundRole(), color);
+    ui->colorLabel->setPalette(palette);
 }
 
 QColor ColorButton::color() const
@@ -33,23 +40,14 @@ QColor ColorButton::color() const
 void ColorButton::onClicked()
 {
     QColor color = QColorDialog::getColor(m_currentColor, m_parent, tr("Выбор цвета"));
-    if (color.isValid()) {
-        setColor(color);
-    }
+    setColor(color);
 }
 
-QColor ColorButton::getButtonColorFromStylesheet()
+void ColorButton::showEvent(QShowEvent *event)
 {
-    QString styleSheet = this->styleSheet();
+    QPushButton::showEvent(event);
 
-    QRegularExpression regex("background-color:\\s*(#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3}|rgb\\([^)]+\\)|rgba\\([^)]+\\)|[a-zA-Z]+)");
-    QRegularExpressionMatch match = regex.match(styleSheet);
-
-    if (match.hasMatch())
-    {
-        QString colorStr = match.captured(1).trimmed();
-        return QColor(colorStr);
-    }
-
-    return QColor();
+    QString hexColor = this->text();
+    QColor initColor = QColor(hexColor);
+    setColor(initColor);
 }

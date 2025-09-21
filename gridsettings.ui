@@ -55,11 +55,8 @@
               <height>16777215</height>
              </size>
             </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: red;</string>
-            </property>
             <property name="text">
-             <string/>
+             <string>#FF0000</string>
             </property>
            </widget>
           </item>
@@ -87,11 +84,8 @@
               <height>16777215</height>
              </size>
             </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: blue;</string>
-            </property>
             <property name="text">
-             <string/>
+             <string>#0000FF</string>
             </property>
            </widget>
           </item>
